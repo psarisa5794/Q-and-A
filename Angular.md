@@ -29,6 +29,16 @@ prefering **ngOnInit()** for initialization logic because input bindings (`@Inpu
 It is the ideal place to perform initialization logic, such as API calls or setting up data for the view.
 In real projects, I inject services in the constructor and place business or API logic inside ngOnInit().
 
+Example: 
+```typescript
+constructor(private userService: UserService) {}
+
+ngOnInit() {
+  // We write initialization logic here
+  this.userService.fetchUsers().subscribe(users => this.users = users);
+}
+```
+
 ## Q4. What is Dependency Injection?
 Dependency Injection is a design pattern where Angular provides required dependencies, such as services, to a class.
 This improves reusability, testability, and maintainability.
@@ -41,7 +51,46 @@ Angular has three types of directives:
 - **Structural directives** – Modify the DOM structure, such as `*ngIf`, `*ngFor`, and `*ngSwitch`.
 - **Attribute directives** – Modify the appearance or behavior of elements, such as `ngClass` and `ngStyle`.
 - **Custom directives** – Used to create reusable DOM behavior like auto-focus or permission-based rendering.
+  
 I frequently use structural and attribute directives in real applications.
+
+Examples: 
+
+**TypeScript(.ts)**
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-example',
+  templateUrl: './example.component.html'
+})
+export class IfExampleComponent {
+  isLoggedIn: boolean = true;
+
+  status = 'pending'; // can be 'active', 'pending', or 'inactive'
+
+  // list of users
+  users = [
+    { id: 1, name: 'Alice' },
+    { id: 2, name: 'Bob' },
+    { id: 3, name: 'Charlie' }
+  ]
+}
+
+```
+
+**template (.HTML)**
+```html
+<!-- Simple condition -->
+<div *ngIf="isLoggedIn">
+  Welcome, user!
+</div>
+
+<!-- With else block using <ng-template> -->
+<div *ngIf="!isLoggedIn; else loginTemplate">
+  Please log in.
+</div>
+```
 
 ## Q6. ngIf vs hidden
 `*ngIf` adds or removes elements from the DOM, whereas hidden only hides the element using CSS while keeping it in the DOM.
@@ -79,12 +128,23 @@ Angular’s HttpClient returns observables, which makes it easy to combine API c
 - Components focus of UI logic while services handle API communications, state management, shared logic.
   
 This Separation improves code maintainability, resusability, and testability.
+```typescript
+@Injectable({ providedIn: 'root' })
+export class UserService {}
+```
 
 ## Q10. What is Lazy Loadind ?
 **Lazy loading** is a technique where feature modules are loaded only when required instead of loading the entire application upfront.
 In improves initial load time, Application performance.
 
 I have implemented lazy loading using loadChildren in angular routing. especially for large modules (or) components.
+```typescript
+{
+  path: 'admin',
+  loadChildren: () =>
+    import('./admin/admin.module').then(m => m.AdminModule)
+}
+```
 
 # Level-2 Interview Questions.
 
@@ -149,6 +209,11 @@ It automatically:
 - Unsubscribes when the component is destroyed
 
 This prevents  subscription logic in the component class.
+```html
+<div *ngIf="users$ | async as users">
+  {{ users.length }}
+</div>
+```
 
 ## Q17. Subject vs BehaviorSubject vs ReplaySubject
 A **Subject** does not store any value, subscribers only receive values emitted after subscription.
@@ -231,7 +296,7 @@ RxJS is still preferred for asynchronous workflows like HTTP calls.
 Signals improve performance, reduce boilerplate code, and make state changes more predictable.
 
 Example : 
-```
+```typescript
 count = signal(0);
 increment() {
   this.count.update(v => v + 1);
