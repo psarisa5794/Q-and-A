@@ -90,6 +90,33 @@ export class IfExampleComponent {
 <div *ngIf="!isLoggedIn; else loginTemplate">
   Please log in.
 </div>
+
+<ul>
+  <!-- Loop through the users array -->
+  <li *ngFor="let user of users; let i = index">
+    Index {{ i + 1 }}: {{ user.name }} (ID: {{ user.id }})
+  </li>
+</ul>
+
+<!-- Accessing first/last state of loop -->
+<div *ngFor="let user of users; let isLast = last">
+  {{ user.name }} <span *ngIf="!isLast">|</span>
+</div>
+
+<div [ngSwitch]="status">
+  <div *ngSwitchCase="'active'">
+    Status: Active
+  </div>
+  <div *ngSwitchCase="'pending'">
+    Status: Pending Review
+  </div>
+  <div *ngSwitchCase="'inactive'">
+    Status: Inactive
+  </div>
+  <div *ngSwitchDefault>
+    Status: Unknown or Not applicable
+  </div>
+</div>
 ```
 
 ## Q6. ngIf vs hidden
