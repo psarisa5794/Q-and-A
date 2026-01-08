@@ -1,4 +1,4 @@
-# Level 1 Interview Questions 
+  # Level 1 Interview Questions 
 ## Q1. Explain Angular architecture
 Angular is a component-based and modular frontend framework.
 The core building block is a component, which consists of a TypeScript class, an HTML template, and CSS styles.
@@ -20,10 +20,10 @@ I’ve used two-way binding mostly in forms and event/property binding for dynam
 The constructor is used mainly for dependency injection, such as injecting services into the component.
 It should not contain heavy logic.
 Historically it was the primary place to perform dependency injection like injecting services like **Router**, **HTTPClient**.
-However modern Angular 14 & above we can also use the **inject()** function to handle dependency injection.
+However modern Angular 14 & above we can also use the `inject()` function to handle dependency injection.
 
 Regardless of which injectino style we use, the constructor should remain lightweight. We generally avoid writing business logic there,
-prefering **ngOnInit()** for initialization logic because input bindings (**@Input()**) are not yet available inside constructor.
+prefering **ngOnInit()** for initialization logic because input bindings (`@Input()`) are not yet available inside constructor.
 
 **ngOnInit()** is a lifecycle hook that runs after Angular initializes the component and its input properties.
 It is the ideal place to perform initialization logic, such as API calls or setting up data for the view.
@@ -32,24 +32,24 @@ In real projects, I inject services in the constructor and place business or API
 ## Q4. What is Dependency Injection?
 Dependency Injection is a design pattern where Angular provides required dependencies, such as services, to a class.
 This improves reusability, testability, and maintainability.
-Angular implements DI using its built-in **injector** and the **@Injectable()** decorator.
+Angular implements DI using its built-in `injector` and the `@Injectable()` decorator.
 In real projects, I use DI to inject services like API services, authentication services, and shared utility services into components.
 
 ## Q5. What are directives?
 Directives are used to manipulate the DOM or change the behavior of elements.
 Angular has three types of directives:
-- **Structural directives** – Modify the DOM structure, such as *ngIf, *ngFor, and *ngSwitch.
-- **Attribute directives** – Modify the appearance or behavior of elements, such as **ngClass** and **ngStyle**.
+- **Structural directives** – Modify the DOM structure, such as `*ngIf`, `*ngFor`, and `*ngSwitch`.
+- **Attribute directives** – Modify the appearance or behavior of elements, such as `ngClass` and `ngStyle`.
 - **Custom directives** – Used to create reusable DOM behavior like auto-focus or permission-based rendering.
 I frequently use structural and attribute directives in real applications.
 
 ## Q6. ngIf vs hidden
-*ngIf adds or removes elements from the DOM, whereas hidden only hides the element using CSS while keeping it in the DOM.
+`*ngIf` adds or removes elements from the DOM, whereas hidden only hides the element using CSS while keeping it in the DOM.
 I prefer ngIf when:
 - The element is not required at all
 - Performance or security is a concern
 
-I use hidden when:
+I use `hidden` when:
 - The element needs to stay in the DOM
 - Toggling visibility frequently without recreating the element
 
@@ -57,7 +57,7 @@ I use hidden when:
 Change Detection is the mechanism Angular uses to update the view when data changes.
 Default strategy checks all components whenever any event occurs.
 OnPush strategy checks a component only when:
-- An **@Input()** reference changes
+- An `@Input()` reference changes
 - An **observable** emits a new value
 - An event occurs inside the component
 I use OnPush in performance-critical components like dashboards or large lists to reduce unnecessary checks.
@@ -190,55 +190,36 @@ In large Angular applications, common performance bottlenecks include excessive 
 I usually identify these issues using Angular DevTools, browser performance profiling, and by observing UI freezes or slow dashboard loads.
 
 To fix them:
-
-I use ChangeDetectionStrategy.OnPush to limit unnecessary change detection
-
-Use `trackBy` with `*ngFor` to avoid re-rendering entire lists
-
-Apply virtual scrolling (`cdk-virtual-scroll-viewport`) for large datasets
-
-Implement server-side pagination and filtering
-
-Optimize API calls using RxJS operators like switchMap and caching
+- I use ChangeDetectionStrategy.OnPush to limit unnecessary change detection
+- Use `trackBy` with `*ngFor` to avoid re-rendering entire lists
+- Apply virtual scrolling (`cdk-virtual-scroll-viewport`) for large datasets
+- Implement server-side pagination and filtering
+- Optimize API calls using RxJS operators like switchMap and caching
 
 These changes significantly improve rendering speed and overall user experience.
 
-Q2. Explain ChangeDetectionStrategy.OnPush
-
-Model Answer:
-
+## Q22. Explain ChangeDetectionStrategy.OnPush
 ChangeDetectionStrategy.OnPush tells Angular to run change detection for a component only when specific conditions are met.
 
 Change detection is triggered when:
-
-An `@Input()` reference changes
-
-An observable emits a new value (commonly via async pipe)
-
-A DOM event occurs inside the component
-
-Change detection is triggered manually
+- An `@Input()` reference changes
+- An observable emits a new value (commonly via async pipe)
+- A DOM event occurs inside the component
+- Change detection is triggered manually
 
 A common mistake developers make is mutating objects instead of creating new references, which prevents OnPush components from updating.
 
 When used correctly, OnPush significantly improves performance in complex UIs.
 
-Q3. What is trackBy and why is it important?
+## Q23. What is trackBy and why is it important?
+By default, Angular re-renders all DOM elements in an `*ngFor` loop whenever the data changes.
 
-Model Answer:
-
-By default, Angular re-renders all DOM elements in an *ngFor loop whenever the data changes.
-
-trackBy allows Angular to uniquely identify each item using a key, such as an ID.
-
+`trackBy` allows Angular to uniquely identify each item using a key, such as an ID.
 This helps Angular update only the modified items instead of recreating the entire list.
 
 In large tables or dashboards, using trackBy greatly improves rendering performance and reduces DOM operations.
 
-Q4. What are Angular Signals?
-
-Model Answer:
-
+## Q24. What are Angular Signals?
 Angular Signals are a new reactive primitive introduced to simplify state management.
 
 Signals provide fine-grained reactivity without relying on RxJS or zone-based change detection.
@@ -257,64 +238,40 @@ increment() {
 }
 ```
 
-Q5. Optimizing large dashboards or tables
-
-Model Answer:
-
+## Q25. Optimizing large dashboards or tables
 For large dashboards, I focus on both frontend and backend optimization.
 
 On the backend:
-
-Implement server-side pagination, filtering, and sorting
+- Implement server-side pagination, filtering, and sorting
 
 On the frontend:
-
-Use virtual scrolling
-
-Use trackBy in lists
-
-Apply OnPush change detection
-
-Lazy load heavy components
+- Use virtual scrolling
+- Use trackBy in lists
+- Apply OnPush change detection
+- Lazy load heavy components
 
 This approach minimizes DOM rendering and improves responsiveness.
 
-Q6. State management approaches in Angular
-
-Model Answer:
-
+## Q26. State management approaches in Angular
 Angular state management depends on application size.
-
-For small apps, component state is sufficient
-
-For medium apps, services with BehaviorSubject work well
-
-For large enterprise apps, NgRx is useful for predictable state, debugging, and scalability
+- For small apps, component state is sufficient
+- For medium apps, services with BehaviorSubject work well
+- For large enterprise apps, NgRx is useful for predictable state, debugging, and scalability
 
 I usually start simple and introduce NgRx only when state complexity grows.
 
-Q7. What is an Angular interceptor?
-
-Model Answer:
-
+## Q27. What is an Angular interceptor?
 Angular HTTP interceptors allow us to intercept and modify HTTP requests and responses globally.
 
 Common use cases include:
-
-Attaching authentication tokens
-
-Handling global API errors
-
-Logging requests
-
-Modifying headers
+- Attaching authentication tokens
+- Handling global API errors
+- Logging requests
+- Modifying headers
 
 Interceptors help keep components clean and centralize cross-cutting concerns.
 
-Q8. What are standalone components?
-
-Model Answer:
-
+## Q28. What are standalone components?
 Standalone components allow Angular components to exist without being declared in an NgModule.
 
 Dependencies like pipes, directives, and modules are imported directly into the component.
@@ -323,92 +280,57 @@ This simplifies architecture, improves tree-shaking, and reduces boilerplate.
 
 Standalone components are ideal for modern Angular applications and micro-frontends.
 
-Q9. Designing scalable Angular architecture
+## Q29. Designing scalable Angular architecture
+- I design Angular applications using a feature-based folder structure.
+- Each feature contains its own components, services, and routing.
+- Shared utilities and UI components go into shared folders.
+- Business logic is kept in services, while components focus on UI.
+- This approach improves maintainability and team collaboration.
 
-Model Answer:
-
-I design Angular applications using a feature-based folder structure.
-
-Each feature contains its own components, services, and routing.
-
-Shared utilities and UI components go into shared folders.
-
-Business logic is kept in services, while components focus on UI.
-
-This approach improves maintainability and team collaboration.
-
-Q10. Securing Angular frontend applications
-
-Model Answer:
-
+## Q30. Securing Angular frontend applications
 Frontend security includes:
 
-Route guards for authentication and authorization
-
-Role-based access control (RBAC)
-
-HTTP interceptors for token handling
-
-Avoiding sensitive data storage in the frontend
-
-Preventing XSS using Angular’s built-in sanitization
+- Route guards for authentication and authorization
+- Role-based access control (RBAC)
+- HTTP interceptors for token handling
+- Avoiding sensitive data storage in the frontend
+- Preventing XSS using Angular’s built-in sanitization
 
 Angular handles CSRF and XSS protections by default, but correct usage is critical.
 
-Q11. AOT vs JIT compilation
-
-Model Answer:
-
-JIT compiles templates in the browser, which is slower and used mainly during development.
-
-AOT compiles templates at build time, resulting in faster startup, smaller bundles, and early error detection.
+## Q31. AOT vs JIT compilation
+- JIT compiles templates in the browser, which is slower and used mainly during development.
+- AOT compiles templates at build time, resulting in faster startup, smaller bundles, and early error detection.
 
 AOT is preferred in production builds for performance and reliability.
 
-Q12. Angular Universal (SSR)
-
-Model Answer:
-
+## Q32. Angular Universal (SSR)
 Angular Universal enables server-side rendering.
 
 It improves SEO, first contentful paint, and performance on low-end devices.
 
 SSR is ideal for public-facing applications but usually unnecessary for internal dashboards.
 
-Q13. Error handling in Angular
-
-Model Answer:
-
+## Q33. Error handling in Angular
 I handle errors at multiple levels:
 
-Use HTTP interceptors for API error handling
-
-Use global error handlers for unexpected errors
-
-Show user-friendly messages using toasts or alerts
+- Use HTTP interceptors for API error handling
+- Use global error handlers for unexpected errors
+- Show user-friendly messages using toasts or alerts
 
 Centralized error handling keeps components clean and improves UX.
 
-Q14. Handling a poorly written Angular codebase
-
-Model Answer:
-
+## Q34. Handling a poorly written Angular codebase
 I first focus on understanding the application architecture and identifying critical issues.
 
 My priorities are:
 
-Security vulnerabilities
-
-Application stability
-
-Performance bottlenecks
+- Security vulnerabilities
+- Application stability
+- Performance bottlenecks
 
 Then I refactor gradually:
-
-Improve folder structure
-
-Introduce reusable components
-
-Fix performance issues
-
-I avoid risky large rewrites and focus on incremental improvements.
+- Improve folder structure
+- Introduce reusable components
+- Fix performance issues
+- I avoid risky large rewrites and focus on incremental improvements.
