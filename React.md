@@ -55,8 +55,9 @@ useEffect is used to handle side effects such as API calls, subscriptions, or ti
 
 The dependency array controls when the effect runs:
 
-Empty array → runs once
-With dependencies → runs when dependencies change
+- Empty array → runs once
+- With dependencies → runs when dependencies change
+  
 A common mistake is missing or incorrect dependencies, which can cause infinite re-renders.
 
 useEffect can also return a cleanup function to clear subscriptions or timers.
@@ -80,6 +81,7 @@ For example, I used conditional rendering to show different dashboards based on 
 ## Q11. Controlled vs Uncontrolled components (Forms)
 
 In controlled components, form inputs are managed using React state and updated via onChange handlers.
+
 Uncontrolled components rely on the DOM and use useRef to access values.
 
 I prefer controlled components because they provide better control, validation, and dynamic behavior.
