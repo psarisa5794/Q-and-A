@@ -1,5 +1,13 @@
 # Level 1 Interview Questions
+## Q1. What is Node.js and How does it works?
+Node.js is a runtime environment that executes JavaScript code outside the web browser using **Chrome V8 Engine**.
 
+**This is how Node.js Actually works**
+- **V8 Engine:** Node.js uses Google's open-source V8 JavaScript engine to compile JavaScript code directly into native machine code, providing fast execution speeds.
+- **Singel Thread:** Node.js run on a single main thread. This avoids the overhead of managing multiple threads and prevents the potential deadlocks which are common in other server models.
+- **Asynchronous Operations** : When a request involves input/output(I/O) operatinos (like reading a file, accessing a database, or making a network call), Node.js does not wait for that operation to complete. Instead it offloads the task and continoues processiong other requests.
+- **Libuv Library** : Under the hood, Node.js uses a powerful c++ library called libuv. This library handles the complex, cross-platform asynchronous I/O operations and uses an underlying thread pool for certain blocking tasks, seamlessly managing the operations and notifying the main thread when they are finished.
+  
 ## Q1. What is Node.js? How is it different from traditional backend languages like Java or PHP?
 
 Node.js is a JavaScript runtime environment, not a framework.
